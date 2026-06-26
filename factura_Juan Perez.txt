@@ -1,0 +1,8 @@
+FACTURA
+Cliente: Juan Perez
+Laptop x1 = $800.0
+Mouse x2 = $40.0
+Subtotal: $840.0
+Descuento: $168.0
+Impuesto: $80.64
+TOTAL: $752.64
