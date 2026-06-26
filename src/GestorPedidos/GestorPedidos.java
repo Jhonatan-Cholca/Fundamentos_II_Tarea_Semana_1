@@ -8,17 +8,26 @@ public class GestorPedidos  {
 
 private NotificadorService notificador = new NotificadorService();
 private IPedidoRepository repo = new SqlPedidoRepository();
+private Map<String, IDescuentoStrategy> estrategiasDescuento = new HashMap<>();
+
+public GestorPedidos() {
+        
+        estrategiasDescuento.put("VIP", new DescuentoVip());
+        estrategiasDescuento.put("FRECUENTE", new DescuentoFrecuente());
+        estrategiasDescuento.put("REGULAR", new DescuentoRegular());
+        estrategiasDescuento.put("NUEVO", new SinDescuento());
+    }
 
 public static void main(String[] args) {
         GestorPedidos gestor = new GestorPedidos();
-        List<String> productos = Arrays.asList("Laptop", "Mouse");
-        List<Double> precios = Arrays.asList(800.0, 20.0);
+        List<String> productos = Arrays.asList("Teclado", "Camara");
+        List<Double> precios = Arrays.asList(500.0, 20.0);
         List<Integer> cantidades = Arrays.asList(1, 2);
-        gestor.procesarPedido("Stalyn Catucuamba", "deimos@email.com", productos, precios, cantidades, "VIP");
+        gestor.procesarPedido("test test", "test@email.com", productos, precios, cantidades, "VIP");
         System.out.println("Ejecución finalizada.");
     }
 
-public GestorPedidos() {}
+
 
 public void procesarPedido(String nombreCliente, String emailCliente,
 List<String> nombresProductos,

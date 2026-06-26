@@ -1,0 +1,3 @@
+FACTURA
+Cliente: test test
+TOTAL: $483.84
