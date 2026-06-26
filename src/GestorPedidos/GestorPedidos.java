@@ -5,21 +5,22 @@ import java.io.*;
 import java.sql.*;
 
 public class GestorPedidos {
+
+private NotificadorService notificador = new NotificadorService();
+
     
     public static void main(String[] args) {
         GestorPedidos gestor = new GestorPedidos();
         
-        // Datos de prueba para verificar que funciona
         List<String> productos = Arrays.asList("Laptop", "Mouse");
         List<Double> precios = Arrays.asList(800.0, 20.0);
         List<Integer> cantidades = Arrays.asList(1, 2);
         
-        gestor.procesarPedido("Juan Perez", "juan@email.com", productos, precios, cantidades, "VIP");
+        gestor.procesarPedido("Jhonatan Cholca", "jhonatan@email.com", productos, precios, cantidades, "VIP");
         
         System.out.println("Ejecución finalizada.");
     }
-    
-    
+       
 private Connection conexionBD;
 public GestorPedidos() {
 try {
@@ -87,10 +88,8 @@ writer.close();
 } catch (IOException e) {
 System.out.println("Error al generar la factura: " + e.getMessage());
 }
-System.out.println("Enviando correo a " + emailCliente + "...");
-System.out.println("Asunto: Confirmacion de pedido");
-System.out.println("Cuerpo: Estimado " + nombreCliente + ", su pedido por $"
-+ total + " ha sido procesado.");
+notificador.enviarCorreo(emailCliente, "Confirmacion de pedido", 
+    "Estimado " + nombreCliente + ", su pedido por $" + total + " ha sido procesado.");
 System.out.println("[LOG] Pedido procesado para " + nombreCliente
 + " - Total: " + total);
 }
@@ -110,9 +109,7 @@ stmt.executeUpdate(sql);
 } catch (SQLException e) {
 System.out.println("Error al cancelar el pedido: " + e.getMessage());
 }
-System.out.println("Enviando correo a " + emailCliente + "...");
-System.out.println("Asunto: Cancelacion de pedido");
-System.out.println("Cuerpo: Estimado " + nombreCliente + ", su pedido #"
-+ idPedido + " ha sido cancelado.");
+notificador.enviarCorreo(emailCliente, "Cancelacion de pedido", 
+    "Estimado " + nombreCliente + ", su pedido #" + idPedido + " ha sido cancelado.");
 }
 }
