@@ -2,7 +2,6 @@ package GestorPedidos;
 
 import java.util.*;
 import java.io.*;
-import java.sql.*;
 
 public class GestorPedidos  {
 
@@ -15,8 +14,8 @@ public GestorPedidos() {
         estrategiasDescuento.put("VIP", new DescuentoVip());
         estrategiasDescuento.put("FRECUENTE", new DescuentoFrecuente());
         estrategiasDescuento.put("REGULAR", new DescuentoRegular());
-        estrategiasDescuento.put("NUEVO", new SinDescuento());
-    }
+        estrategiasDescuento.put("NUEVO", new SinDescuento());  
+}
 
 public static void main(String[] args) {
         GestorPedidos gestor = new GestorPedidos();
@@ -27,17 +26,24 @@ public static void main(String[] args) {
         System.out.println("Ejecución finalizada.");
     }
 
-
+private boolean esClienteValido(String nombre, String email) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            System.out.println("Error: nombre de cliente invalido");
+            return false;
+        }
+        if (email == null || !email.contains("@")) {
+            System.out.println("Error: email invalido");
+            return false;
+        }
+        return true;
+    }
 
 public void procesarPedido(String nombreCliente, String emailCliente,
 List<String> nombresProductos,
 List<Double> preciosProductos,
 List<Integer> cantidades,
 String tipoCliente) {
-  if (nombreCliente == null || nombreCliente.trim().isEmpty() || emailCliente == null || !emailCliente.contains("@")) {
-        System.out.println("Error: datos de cliente invalidos");
-        return;
-        }
+if (!esClienteValido(nombreCliente, emailCliente)) return;
 
         double subtotal = 0;
         for (int i = 0; i < nombresProductos.size(); i++) {
@@ -64,8 +70,8 @@ String tipoCliente) {
         ", su pedido por $" + total + " ha sido procesado.");
 }
 
-
 public void cancelarPedido(String nombreCliente, String emailCliente, int idPedido) {
+if (!esClienteValido(nombreCliente, emailCliente)) return;
 repo.eliminar(idPedido);
 notificador.enviarCorreo(emailCliente, "Cancelacion de pedido", 
     "Estimado " + nombreCliente + ", su pedido #" + idPedido + " ha sido cancelado.");
