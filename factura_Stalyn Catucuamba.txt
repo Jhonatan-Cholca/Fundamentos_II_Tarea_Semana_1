@@ -1,0 +1,3 @@
+FACTURA
+Cliente: Stalyn Catucuamba
+TOTAL: $752.64
